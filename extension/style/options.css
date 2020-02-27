@@ -1,0 +1,138 @@
+.content-inlined {
+    display:inline;
+    margin-left:1%;
+}
+
+.contentTitle {
+    font-size:385%;
+    margin-left: 3%;
+    padding-bottom:0.2%;
+}
+
+.spacer {
+    margin-top:8%;
+}
+
+.defaultColors {
+    font-weight:bold;
+    text-decoration:underline;
+    cursor:hand;
+}
+
+.chosenColors {
+    font-weight:bold;
+}
+
+#sidebarUL > li {
+    margin: 15px 0;
+    font-size:150%;
+}
+
+#sidebarUL > li > a:link,a:visited {
+    text-decoration:none;
+    font-weight:bold;
+    color:#474948;
+    padding-bottom:3%;
+}
+
+#sidebarUL > li > a:hover{
+    color:Black;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+#sidebarUL > li > a:active {
+    color:#434544;
+    text-decoration:none;
+    font-weight:bold;
+}
+
+#content > *:not(.contentTitle):not(.content-inlined):not(a){
+    margin-left: 6.5%;
+}
+
+#content > p{
+    font-size:150%;
+}
+
+#title {
+    background-color:#279C34;
+    border-radius:5px;
+    padding-bottom:1.7%;
+    width:100%;
+    box-shadow: 0px 6px 4px 1px #888888;
+}
+
+#titleText {
+    font-size:350%;
+    font-family:Tahoma;
+    font-weight:bold;
+    padding-left:1.5%;
+    padding-top:1%;
+}
+
+#optionsText {
+    font-size:145%;
+    padding-left:2.5%;
+    padding-top:0.3%;
+}
+
+#sidebar {
+    position:sticky;
+    width:11%;
+    top:24%;
+    left:2%;
+    background-color:#E9FAD9;
+    border-radius:4px;
+    box-shadow: 0px 0px 10px 5px #6e7a8c;
+}
+
+#sidebarTitle {
+    padding-top:7%;
+    text-align:center;
+    font-size:220%;
+    text-decoration:underline;
+}
+
+#content {
+    position:relative;
+    margin-top:-10.5%;
+    left:15%;
+    width:70%;
+    height:auto;
+    background-color:#7DCBE3;
+    border-radius:3px;
+    box-shadow:0px 0px 7px 3px #325661;
+}
+
+a#userURL:link, a#userURL:visited {
+    color:black;
+    text-decoration:none;
+}
+
+a#userURL:hover {
+    color:#04152E;
+    text-decoration:underline;
+}
+
+a#userURL:active {
+    color:#104185;
+}
+
+#selectShowsListed {
+    width:auto;
+    padding-right:2%;
+    font-size:130%;
+}
+
+#oneColorMenu > *, #multiColorMenu > * {
+    font-size:150%;
+    margin-left:7%;
+}
+
+footer {
+    margin-top:0.5%;
+    text-align:center;
+    font-size:160%;
+    font-weight:bold;
+}

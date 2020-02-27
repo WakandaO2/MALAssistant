@@ -1,0 +1,32 @@
+footer {
+    font-size:90%;
+}
+
+html, body {
+    height:25%;
+    width:150px;
+    text-align:center;
+    direction:ltr;
+    margin-left:-0.5%;
+}
+
+#titleText {
+    font-size:135%;
+}
+
+#userText {
+    font-size:90%;
+    margin-top:-7%;
+    margin-bottom:1%;
+    color:#2e51a2;
+}
+
+a:link,a:visited,a:active {
+    font-weight:bold;
+    color:Gray;
+    padding-bottom:3%;
+}
+
+a:hover{
+    color:Black;
+}
