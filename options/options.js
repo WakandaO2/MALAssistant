@@ -1,5 +1,5 @@
 /*
-Name:           Options.js
+Name:           options.js
 Description:    Responsible for everything that can be managed in the options page.
 Author:         WakandaO2
 Date:           2017-2018

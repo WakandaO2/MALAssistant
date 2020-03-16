@@ -1,5 +1,5 @@
 /*
-Name:           Utils.js
+Name:           utils.js
 Description:    Contains functions and miscellaneous things relevant to all scripts.
 Author:         WakandaO2
 Date:           11/01/2019

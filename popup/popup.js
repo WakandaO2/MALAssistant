@@ -1,7 +1,6 @@
 /*
-Name:           Popup.js
-Description:    Script file relevant to the popup page, opened when the user clicks on
-                the extension's icon in Chrome's top bar.
+Name:           popup.js
+Description:    Popup page's script file.
 Author:         WakandaO2
 Date:           2017
 */

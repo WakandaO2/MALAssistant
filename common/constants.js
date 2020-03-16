@@ -1,5 +1,5 @@
 /*
-Name:           Constants.js
+Name:           constants.js
 Description:    Contains constants relevant to all scripts.
 Author:         WakandaO2
 Date:           11/01/2019

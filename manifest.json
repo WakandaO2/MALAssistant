@@ -3,39 +3,40 @@
     "name": "MALAssistant",
     "description": "Add useful information to MyAnimeList.",
     "version": "1.50",
-    "author": "Wakanda",
+    "author": "WakandaO2",
     "default_locale": "en",
-  
-    "options_page": "options.html",
-    "browser_action": {
-        "default_popup": "popup.html",
-        "default_title": "MALAssistant"
+
+    "icons": {
+        "16": "res/icons/16.png",
+        "38": "res/icons/38.png",
+        "48": "res/icons/48.png"
     },
   
-    "icons": {
-        "16": "icons/16.png",
-        "38": "icons/38.png",
-        "48": "icons/48.png"
+    "options_page": "options/options.html",
+
+    "browser_action": {
+        "default_popup": "popup/popup.html",
+        "default_title": "MALAssistant"
     },
 
     "content_scripts": [
         {
-            "js": ["script/common/Constants.js", "script/MALScript.js"],
+            "js": ["common/constants.js", "content_scripts/MALScript.js"],
             "matches": ["https://myanimelist.net/people/*"]
         },
         {
-            "js": ["script/common/Constants.js", "script/BetaScript.js"],
+            "js": ["common/constants.js", "content_scripts/betaScript.js"],
             "matches": ["https://myanimelist.net/animelist/*"]
         }
     ],
   
     "background": {
-        "scripts": ["script/common/Constants.js", "script/common/Utils.js", "script/BackgroundPage.js"]
+        "scripts": ["common/constants.js", "common/utils.js", "background/background.js"]
     },
   
     "web_accessible_resources": [
-        "script/MALScript.js",
-        "script/BetaScript.js"
+        "content_scripts/MALScript.js",
+        "content_scripts/betaScript.js"
     ],
   
     "permissions": [

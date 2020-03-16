@@ -1,6 +1,7 @@
 /*
-Name:           BetaScript.js
-Description:    Contains a new method to get the shows (using the user profile's 'All Shows' table), since MAL API is down.
+Name:           betaScript.js
+Description:    Contains a new method to get the shows (using the user profile's 'All Shows' table), 
+                since MAL API is down.
 Author:         WakandaO2
 Date:           2018
 */

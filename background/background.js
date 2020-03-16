@@ -1,6 +1,6 @@
 /*
-Name:           BackgroundPage.js
-Description:    Responsible for interacting with the shows database.
+Name:           background.js
+Description:    Background page script that interacts with the shows DB.
 Author:         WakandaO2
 Date:           2017-2018
 */

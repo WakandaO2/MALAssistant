@@ -1,6 +1,6 @@
 /*
 Name:           MALScript.js
-Description:    Contains functions responsible for identifying and coloring shows.
+Description:    Content script responsible for coloring the user's shows.
 Author:         WakandaO2
 Date:           2017-2018
 */
