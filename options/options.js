@@ -239,7 +239,7 @@ function requestShowsInfo()
     var message = { message: Constants.MESSAGE_REQUEST_SHOWS };
     
     // TODO: Add on response failed error handler.
-    browser.runtime.sendMessage(message).then(onShowsReponse, null);
+    browser.runtime.sendMessage(message).then(onShowsResponse, null);
 }
 
 function setNewUsername(new_username)
