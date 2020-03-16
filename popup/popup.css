@@ -4,10 +4,8 @@ footer {
 
 html, body {
     height:25%;
-    width:150px;
     text-align:center;
     direction:ltr;
-    margin-left:-0.5%;
     font-family:'Segoe UI';
 }
 

@@ -13,10 +13,10 @@ const Constants = browser.extension.getBackgroundPage().Constants;
 
 /*****  Callback Functions  *****/
 
-function setUserMessage(item)
+function setUserMessage(items)
 {
-    if (item.username != null) {
-        userText.innerHTML = "Hey " + username + "!";
+    if (items['username'] != null) {
+        userText.innerHTML = "Hey " + items['username'] + "!";
     }
 }
 
