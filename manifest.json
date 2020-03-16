@@ -47,5 +47,11 @@
         "tabs",
         "storage",
         "https://myanimelist.net/*"
-    ]
+    ],
+
+    "browser_specific_settings": {
+        "gecko": {
+            "id": "MALAssistant@WakandaO2.github.com"
+        }
+    }
 }
