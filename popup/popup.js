@@ -38,3 +38,4 @@ function onPopupPageLoad()
 /*****  Callback Registrations  *****/
 
 document.addEventListener('DOMContentLoaded', onPopupPageLoad);
+
