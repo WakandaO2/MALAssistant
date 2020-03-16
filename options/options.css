@@ -23,6 +23,11 @@
     font-weight:bold;
 }
 
+.menuTitles {
+    margin-top:2%;
+    font-size:250%;
+}
+
 #sidebarUL > li {
     margin: 15px 0;
     font-size:150%;

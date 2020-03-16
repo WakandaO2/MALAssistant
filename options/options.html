@@ -5,69 +5,69 @@
         <script src="options.js"></script>
     </head>
     <body>
-        <div id = "title">
+        <div id="title">
             <header id="titleText">MALAssistant v</header>
             <header id="optionsText">Options</header>
         </div>
-        <div id = "sidebar">
-            <h3 id = "sidebarTitle">Quick Settings:</h3>
-            <ul id = "sideBarUL" style = "list-style-type:square">
+        <div id="sidebar">
+            <h3 id="sidebarTitle">Quick Settings:</h3>
+            <ul id="sideBarUL" style="list-style-type:square">
                 <li><a href="#MALInfo">MAL Info</a></li>
                 <li><a href="#ShowsListed">Shows Listed</a></li>
                 <li><a href="#ColorSettings">Color Settings</a></li>
             </ul>
             <br>
         </div>
-        <div id = "content">
-            <span id = "MALInfo"><!-- Title Seperator --></span>
-            <h1 class = "contentTitle">MyAnimeList.com Info:</h1>
+        <div id="content">
+            <span id="MALInfo"><!-- Title Seperator --></span>
+            <h1 class="contentTitle">MyAnimeList.com Info:</h1>
                 <p>In order to use your own MyAnimeList watchlist, please enter your MAL username.</p>
-                <p style = "display:inline">Current username used is: </p><a href="https://myanimelist.net/profile/WakandaO2" id = "userURL" target = "_blank"><h2 id = "storedUsername" class = "content-inlined"></h2></a>
-                <button id = "refreshCurrUser" class = "content-inlined">Refresh</button>
+                <p style="display:inline">Current username used is: </p><a href="https://myanimelist.net/profile/WakandaO2" id="userURL" target="_blank"><h2 id="storedUsername" class="content-inlined"></h2></a>
+                <button id="refreshCurrUser" class="content-inlined">Refresh</button>
                 <br><br>
-                <h1 style = "display:inline">MAL Username: </h1>
-                <input type = "text" class = "content-inlined" id = "usernameField">
-                <button id = "submitUsername" class = "content-inlined">Submit</button>
-            <span id = "ShowsListed"></span>
-            <div class = "spacer"></div>
-            <h1 class = "contentTitle">Shows Listed:</h1>
-                <p>Currently there are <span id = "numShowsListed" style="font-weight:bold"></span> shows listed, as specified:</p>
-                <select id = "selectShowsListed" size = "10"></select>
-            <span id = "ColorSettings"></span>
-            <div class = "spacer"></div>
-            <h1 class = "contentTitle">Color Settings:</h1>
+                <h1 style="display:inline">MAL Username: </h1>
+                <input type="text" class="content-inlined" id="usernameField">
+                <button id="submitUsername" class="content-inlined">Submit</button>
+            <span id="ShowsListed"></span>
+            <div class="spacer"></div>
+            <h1 class="contentTitle">Shows Listed:</h1>
+                <p>Currently there are <span id="numShowsListed" style="font-weight:bold"></span> shows listed, as specified:</p>
+                <select id="selectShowsListed" size="10"></select>
+            <span id="ColorSettings"></span>
+            <div class="spacer"></div>
+            <h1 class="contentTitle">Color Settings:</h1>
                 <p>Here you can configure which colors will be used, and how many colors will be used (if any).</p>
-                <input type = "radio" name = "chooseColors" id = "radioNo" value = "0">
-                <p class = "content-inlined">Color blind (disabled)</p>
-                <input type = "radio" name = "chooseColors" id = "radioOne" value = "1">
-                <p class = "content-inlined">One color to rule them all</p>
-                <input type = "radio" name = "chooseColors" id = "radioMulti" value = "2">
-                <p class = "content-inlined">Make it colorful</p>
-                <div id = "noColorMenu" class = "spacer" style = "display:none;">&nbsp;</div>
-                <div id = "oneColorMenu">
-                    <h1 style="margin-top:2%; font-size:250%;">One Color</h1>
+                <input type="radio" name="chooseColors" id="radioNo" value="0">
+                <p class="content-inlined">Color blind (disabled)</p>
+                <input type="radio" name="chooseColors" id="radioOne" value="1">
+                <p class="content-inlined">One color to rule them all</p>
+                <input type="radio" name="chooseColors" id="radioMulti" value="2">
+                <p class="content-inlined">Make it colorful</p>
+                <div id="noColorMenu" class="spacer" style="display:none;">&nbsp;</div>
+                <div id="oneColorMenu">
+                    <h1 class="menuTitles">One Color</h1>
                     <p>Choose the only color that will be used.</p>
-                    <p>The current color chosen is: <span id = "oneColorChosen" class = "chosenColors"></span><br>(default: <span id="defaultOneColor" class="defaultColors">#c8edb6</span>)</p>
-                    <input type = "color" id = "oneColorInput" value = "#c8edb6">
-                    <button id = "submitOneColor" style = "margin-left:1.5%">Set New Color</button>
-                    <div class = "spacer">&nbsp;</div>
+                    <p>The current color chosen is: <span id="oneColorChosen" class="chosenColors"></span><br>(default: <span id="defaultOneColor" class="defaultColors">#c8edb6</span>)</p>
+                    <input type="color" id="oneColorInput" value="#c8edb6">
+                    <button id="submitOneColor" style="margin-left:1.5%">Set New Color</button>
+                    <div class="spacer">&nbsp;</div>
                 </div>
-                <div id = "multiColorMenu" style="display:none;">
-                    <h1 style="margin-top:2%; font-size:250%;">Multi Color Menu</h1>
+                <div id="multiColorMenu" style="display:none;">
+                    <h1 class="menuTitles">Multi Color Menu</h1>
                     <p>In this option, you can choose different color for each status (e.g: Watching, PTW).</p>
-                    <p><strong>Watching:</strong> The current color chosen is: <span id = "multiColorWATCH" class = "chosenColors"></span><br>(default: <span id="defaultColorWATCH" class="defaultColors">#c8edb6</span>)</p>
-                    <input type = "color" id = "colorWATCHInput">
-                    <p><strong>Completed:</strong> The current color chosen is: <span id = "multiColorCMPLT" class = "chosenColors"></span><br>(default: <span id="defaultColorCMPLT" class="defaultColors">#84a0e8</span>)</p>
-                    <input type = "color" id = "colorCMPLTInput">
-                    <p><strong>On-Hold:</strong> The current color chosen is: <span id = "multiColorONHLD" class = "chosenColors"></span><br>(default: <span id="defaultColorONHLD" class="defaultColors">#f9f193</span>)</p>
-                    <input type = "color" id = "colorONHLDInput">
-                    <p><strong>Dropped:</strong> The current color chosen is: <span id = "multiColorDROPD" class = "chosenColors"></span><br>(default: <span id="defaultColorDROPD" class="defaultColors">#eb9091</span>)</p>
-                    <input type = "color" id = "colorDROPDInput">
-                    <p><strong>Plan To Watch:</strong> The current color chosen is: <span id = "multiColorPTW" class = "chosenColors"></span><br>(default: <span id ="defaultColorPTW" class="defaultColors">#d2d2d2</span>)</p>
-                    <input type = "color" id = "colorPTWInput">
+                    <p><strong>Watching:</strong> The current color chosen is: <span id="multiColorWATCH" class="chosenColors"></span><br>(default: <span id="defaultColorWATCH" class="defaultColors">#c8edb6</span>)</p>
+                    <input type="color" id="colorWATCHInput">
+                    <p><strong>Completed:</strong> The current color chosen is: <span id="multiColorCMPLT" class="chosenColors"></span><br>(default: <span id="defaultColorCMPLT" class="defaultColors">#84a0e8</span>)</p>
+                    <input type="color" id="colorCMPLTInput">
+                    <p><strong>On-Hold:</strong> The current color chosen is: <span id="multiColorONHLD" class="chosenColors"></span><br>(default: <span id="defaultColorONHLD" class="defaultColors">#f9f193</span>)</p>
+                    <input type="color" id="colorONHLDInput">
+                    <p><strong>Dropped:</strong> The current color chosen is: <span id="multiColorDROPD" class="chosenColors"></span><br>(default: <span id="defaultColorDROPD" class="defaultColors">#eb9091</span>)</p>
+                    <input type="color" id="colorDROPDInput">
+                    <p><strong>Plan To Watch:</strong> The current color chosen is: <span id="multiColorPTW" class="chosenColors"></span><br>(default: <span id ="defaultColorPTW" class="defaultColors">#d2d2d2</span>)</p>
+                    <input type="color" id="colorPTWInput">
                     <br><br><br>
-                    <button id = "submitMultiColor">Set New Colors</button>
-                    <div class = "spacer">&nbsp;</div>
+                    <button id="submitMultiColor">Set New Colors</button>
+                    <div class="spacer">&nbsp;</div>
                 </div>
         </div>
         <br><hr>
