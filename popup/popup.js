@@ -13,7 +13,7 @@ const Constants = browser.extension.getBackgroundPage().Constants;
 
 /*****  Callback Functions  *****/
 
-function setUsername(item)
+function setUserMessage(item)
 {
     if (item.username != null) {
         userText.innerHTML = "Hey " + username + "!";
@@ -27,7 +27,7 @@ function onPopupPageLoad()
     
     // Get the username (if set) from storage.
     // TODO: Add storage get error handler.
-    browser.storage.local.get('username').then(setUsername, null);
+    browser.storage.local.get('username').then(setUserMessage, null);
     
     options_link.addEventListener("click", function() {
         browser.runtime.openOptionsPage();
