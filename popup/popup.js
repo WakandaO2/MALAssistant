@@ -1,26 +1,40 @@
 /*
 Name:           popup.js
-Description:    Popup page's script file.
+Description:    Popup page's scripts file.
 Author:         WakandaO2
 Date:           2017
 */
 
-// See 'script/common/Constants.js'
-const Constants = chrome.extension.getBackgroundPage().Constants;
+/*****  Constants  *****/
 
-document.addEventListener('DOMContentLoaded', function () {
-    
-    //Adds the version number to the top of the popup page
+// Retrieve the constants from the backgroundPage's namespace.
+const Constants = browser.extension.getBackgroundPage().Constants;
+
+
+/*****  Callback Functions  *****/
+
+function setUsername(item)
+{
+    if (item.username != null) {
+        userText.innerHTML = "Hey " + username + "!";
+    }
+}
+
+function onPopupPageLoad()
+{
+    // Add the version number to the top of the popup page.
     titleText.innerHTML += Constants.VERSION;
     
-    chrome.storage.sync.get('username', function(item) {
-        if(item.username == null)
-        {
-            userText.innerHTML = "NO USERNAME SET";
-        }
-        else
-        {
-            userText.innerHTML = "Hey " + item.username + "!";
-        }
+    // Get the username (if set) from storage.
+    // TODO: Add storage get error handler.
+    browser.storage.local.get('username').then(setUsername, null);
+    
+    options_link.addEventListener("click", function() {
+        browser.runtime.openOptionsPage();
     });
-});
+}
+
+
+/*****  Callback Registrations  *****/
+
+document.addEventListener('DOMContentLoaded', onPopupPageLoad);

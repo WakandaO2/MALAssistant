@@ -8,6 +8,17 @@ html, body {
     text-align:center;
     direction:ltr;
     margin-left:-0.5%;
+    font-family:'Segoe UI';
+}
+
+a:link,a:visited,a:active {
+    font-weight:bold;
+    color:Gray;
+    padding-bottom:3%;
+}
+
+a:hover{
+    color:Black;
 }
 
 #titleText {
@@ -21,12 +32,7 @@ html, body {
     color:#2e51a2;
 }
 
-a:link,a:visited,a:active {
-    font-weight:bold;
-    color:Gray;
-    padding-bottom:3%;
-}
-
-a:hover{
-    color:Black;
+#options_link {
+    font-size:120%;
+    text-decoration:underline;
 }

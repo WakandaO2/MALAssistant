@@ -7,12 +7,15 @@
     "default_locale": "en",
 
     "icons": {
-        "16": "res/icons/16.png",
-        "38": "res/icons/38.png",
-        "48": "res/icons/48.png"
+        "16": "icons/16.png",
+        "38": "icons/38.png",
+        "48": "icons/48.png"
     },
   
-    "options_page": "options/options.html",
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": true
+    },
 
     "browser_action": {
         "default_popup": "popup/popup.html",
