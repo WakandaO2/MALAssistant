@@ -5,7 +5,7 @@ html {
 footer {
     margin-top:0.5%;
     text-align:center;
-    font-size:160%;
+    font-size:140%;
     font-weight:bold;
 }
 
@@ -15,7 +15,7 @@ footer {
 }
 
 .contentTitle {
-    font-size:385%;
+    font-size:250%;
     margin-left: 3%;
     padding-bottom:0.2%;
 }
@@ -36,7 +36,7 @@ footer {
 
 .menuTitles {
     margin-top:2%;
-    font-size:250%;
+    font-size:220%;
 }
 
 #sidebarUL > li {
@@ -68,7 +68,7 @@ footer {
 }
 
 #content > p{
-    font-size:150%;
+    font-size:130%;
 }
 
 #title {
@@ -80,7 +80,7 @@ footer {
 }
 
 #titleText {
-    font-size:350%;
+    font-size:320%;
     font-family:Tahoma;
     font-weight:bold;
     padding-left:1.5%;
@@ -94,10 +94,10 @@ footer {
 }
 
 #sidebar {
-    position:sticky;
-    width:11%;
-    top:24%;
-    left:2%;
+    position:fixed;
+    width:12%;
+    top:25%;
+    left:1%;
     background-color:#E9FAD9;
     border-radius:4px;
     box-shadow: 0px 0px 10px 5px #6e7a8c;
@@ -106,13 +106,13 @@ footer {
 #sidebarTitle {
     padding-top:7%;
     text-align:center;
-    font-size:220%;
+    font-size:180%;
     text-decoration:underline;
 }
 
 #content {
     position:relative;
-    margin-top:-10.5%;
+    margin-top:2%;
     left:15%;
     width:70%;
     height:auto;
@@ -142,6 +142,6 @@ a#userURL:active {
 }
 
 #oneColorMenu > *, #multiColorMenu > * {
-    font-size:150%;
+    font-size:130%;
     margin-left:7%;
 }
