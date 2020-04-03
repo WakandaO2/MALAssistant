@@ -63,16 +63,19 @@ function colorData(storedShowsArray, colorSelection)
     while(i < entriesArr.length)
     {
         entryTitle = entriesArr[i].childNodes[0];
-
+        
         if (storedShowsArray.hasOwnProperty(entryTitle.innerText))
         {
             /* Now we know the show exists in the user's shows list. */
             currentShow = storedShowsArray[entryTitle.innerText];
+            console.log(currentShow);
 
             if (colorSelection == "one")
                 colorToUse = gOneColor;
             else
             {
+                console.log(currentShow.status);
+
                 if (currentShow.status > 4)
                     colorToUse = gMultiColors[4];
                 else

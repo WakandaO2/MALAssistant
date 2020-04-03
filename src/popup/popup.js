@@ -10,13 +10,15 @@ Date:           2017
 // Retrieve the constants from the backgroundPage's namespace.
 const Constants = browser.extension.getBackgroundPage().Constants;
 
+var USER_GREET_FORMAT = "Hello USER!"
+
 
 /*****  Callback Functions  *****/
 
 function setUserMessage(items)
 {
     if (items['username'] != null) {
-        userText.innerHTML = "Hey " + items['username'] + "!";
+        userText.innerHTML = USER_GREET_FORMAT.replace("USER", items['username']);
     }
 }
 

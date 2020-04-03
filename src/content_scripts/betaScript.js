@@ -6,6 +6,8 @@ Author:         WakandaO2
 Date:           2018
 */
 
+/***** Constants *****/
+
 var MALStatusKeywords = {
     "watching"    : MalStatuses.WATCHING,
     "completed"   : MalStatuses.COMPLETED,
@@ -24,28 +26,30 @@ function gatherShowsData()
             [0]'s class changes according to status
             [6] contains the title
     */
-    var rawEntriesArray = document.getElementsByClassName("list-table-data");
-    var showsArr = new Array();
-    var currentShowStatus = 0;
+    var rawEntries = document.getElementsByClassName("list-table-data"),
+        shows = new Array(),
+        currentShowStatus = 0;
     
-    for (i = 0; i < rawEntriesArr.length; i++) {
-        var currentShowStatus = MalStatuses.UNKNOWN;
+    for (i = 0; i < rawEntries.length; i++) {
+        var showStatusKeyword,
+            currentShowStatus = MalStatuses.UNKNOWN;
         
         // Match the show entry's class name to its status.
-        if (rawEntriesArray[i].childNodes[0].className.split(' ')[2] in MALStatusKeywords) {
-            currentShowStatus = MALStatusKeywords[currentShowStatus];
+        showStatusKeyword = rawEntries[i].childNodes[0].className.split(' ')[2];
+        if (showStatusKeyword in MALStatusKeywords) {
+            currentShowStatus = MALStatusKeywords[showStatusKeyword];
         }
 
         var currentShow = {
-            title: rawEntriesArray[i].childNodes[6].childNodes[0].innerText,
+            title: rawEntries[i].childNodes[6].childNodes[0].innerText,
             status: currentShowStatus
         };
         
-        showsArr.push(currentShow);
+        shows.push(currentShow);
     }
     
     // Send the shows to the background page that will insert them to the DB.
-    chrome.runtime.sendMessage({shows: showsArr, message: Constants.MESSAGE_INSERT_SHOWS}, function(response) {
+    chrome.runtime.sendMessage({shows: shows, message: Constants.MESSAGE_INSERT_SHOWS}, function(response) {
     });
 }
 
@@ -83,7 +87,7 @@ function onUsernameGet(items)
 
 function onUsernameSet()
 {
-    console.log("Cased username set successfully!");
+    console.log("Username successfully updated!");
 }
 
 

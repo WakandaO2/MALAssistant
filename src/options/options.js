@@ -224,12 +224,13 @@ function onOptionsPageLoad()
 function setNewUsername(new_username)
 {
     // New username validation.
-    if ((new_username != null) && (new_username[0] != ' ') && (new_username != "")) {
-        // TODO: Add on storage set error handling function.
-        browser.storage.local.set({'username': new_username}).then(onNewUsernameSet, null);
-    } else { 
+    if ((new_username == null) || (new_username[0] == ' ') || (new_username == "")) {
         alert("Invalid username. Please enter a valid one.");
+        return;
     }
+
+    // TODO: Add on storage set error handling function.
+    browser.storage.local.set({'username': new_username}).then(onNewUsernameSet, null);
 }
 
 function setNewOneColor(color)
