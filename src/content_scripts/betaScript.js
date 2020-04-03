@@ -14,7 +14,8 @@ var MALStatusKeywords = {
     "plantowatch" : MalStatuses.PLAN_TO_WATCH
 }
 
-/* Functions */
+
+/***** Functions *****/
 
 function gatherShowsData()
 {
@@ -48,11 +49,6 @@ function gatherShowsData()
     });
 }
 
-function onUsernameSet()
-{
-    console.log("Cased username set successfully!");
-}
-
 function setUsername() 
 {
     /* The user might not give the user with the exact case MAL knows (for example: WakandaO2 - wakandao2)
@@ -62,6 +58,7 @@ function setUsername()
     // TODO: error handler for storage set failure.
     browser.storage.local.set({'username': usernameCased}).then(onUsernameSet, null);
 }
+
 
 /***** Callback Functions *****/
 
@@ -83,6 +80,12 @@ function onUsernameGet(items)
         setUsername();
     }
 }
+
+function onUsernameSet()
+{
+    console.log("Cased username set successfully!");
+}
+
 
 /*****  Callback registrations  *****/
 

@@ -24,7 +24,7 @@
 
     "content_scripts": [
         {
-            "js": ["common/constants.js", "content_scripts/MALScript.js"],
+            "js": ["common/constants.js", "content_scripts/malScript.js"],
             "matches": ["https://myanimelist.net/people/*"]
         },
         {

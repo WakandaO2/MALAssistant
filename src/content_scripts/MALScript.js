@@ -1,5 +1,5 @@
 /*
-Name:           MALScript.js
+Name:           malScript.js
 Description:    Content script responsible for coloring the user's shows.
 Author:         WakandaO2
 Date:           2017-2018
