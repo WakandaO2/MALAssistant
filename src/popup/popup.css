@@ -1,12 +1,11 @@
-footer {
-    font-size:90%;
-}
-
 html, body {
     height:25%;
     text-align:center;
-    direction:ltr;
     font-family:'Segoe UI';
+}
+
+footer {
+    font-size:75%;
 }
 
 a:link,a:visited,a:active {
@@ -24,13 +23,13 @@ a:hover{
 }
 
 #userText {
-    font-size:90%;
-    margin-top:-7%;
-    margin-bottom:1%;
+    font-size:110%;
+    margin-top:-4%;
+    margin-bottom:2%;
     color:#2e51a2;
 }
 
 #options_link {
-    font-size:120%;
+    cursor:pointer;
     text-decoration:underline;
 }

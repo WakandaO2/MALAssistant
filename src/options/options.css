@@ -40,8 +40,8 @@ footer {
 }
 
 #sidebarUL > li {
-    margin: 15px 0;
-    font-size:150%;
+    margin: 8px 0;
+    font-size:120%;
 }
 
 #sidebarUL > li > a:link,a:visited {
