@@ -1,2 +1,6 @@
+# VSCode files
+.vscode
+jsconfig.json
+
 # Firefox add-ons
 *.xpi

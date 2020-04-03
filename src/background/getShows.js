@@ -1,3 +1,5 @@
+var LIST_REQUEST_PARTS = ["https://myanimelist.net/malappinfo.php?u=", "&status=all&type=anime"];
+
 //Fetches the XML file from MAL and send it to parse
 function getShowListXML(user)
 {

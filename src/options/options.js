@@ -9,15 +9,10 @@ Date:           2017-2018
 
 const Constants = browser.extension.getBackgroundPage().Constants;
 
-// MyAnimeList Addresses
-var LIST_REQUEST_PARTS = ["https://myanimelist.net/malappinfo.php?u=", "&status=all&type=anime"];
-
-
 /***** Global Variables  *****/
 
 var gUser,
     gOneColor,
-    gShows = new Array(),
     gMultiColors = new Array();
 
 function toggleColorMenu(noColor, oneColor, multiColor)
@@ -50,26 +45,30 @@ function onUsernameGet(items)
 function onShowsResponse(response)
 {
     // The shows list is actually an associative object.
-    var namesArray = Object.keys(response.farewell);
+    var showNames = Object.keys(response.farewell);
 
-    for (i = 0; i < namesArray.length; i++) {
-        gShows.push(response.farewell[namesArray[i]]);
+    for (i = 0; i < showNames.length; i++)
+    {
+        var optionAdded = document.createElement("option");
+        optionAdded.text = showNames[i];
+        selectShowsListed.options.add(optionAdded);
     }
-    
-    showListOfShows();
+
+    document.getElementById("numShowsListed").innerHTML = showNames.length;
 }
 
 function onOptionsPageLoad()
 {
-    //Adds the version number to the title in the top of the page
-    titleText.innerHTML += chrome.runtime.getManifest().version;
+    // Adds the version number to the title in the top of the page
+    titleText.innerHTML += Constants.VERSION;
     
     // TODO: Add storage get fail error handler.
     browser.storage.local.get('username').then(onUsernameGet, null);
     
-    requestShowsInfo();
+    // TODO: Add message get fail error handler.
+    browser.runtime.sendMessage({ message: Constants.MESSAGE_REQUEST_SHOWS }).then(onShowsResponse, null);
     
-    //Gets the user preference about Disabled/One Color/Multi Color and opens the correct menu
+    // Gets the user preference about Disabled/One Color/Multi Color and opens the correct menu
     chrome.storage.sync.get('colorSelection', function(item) {
         if(item.colorSelection == null)
         {
@@ -221,26 +220,6 @@ function onOptionsPageLoad()
 
 
 /*****  Functions  *****/
-
-function showListOfShows()
-{
-    for (i = 0; i < gShows.length; i++)
-    {
-        var optionAdded = document.createElement("option");
-        optionAdded.text = gShows[i].title;
-        selectShowsListed.options.add(optionAdded);
-    }
-
-    document.getElementById("numShowsListed").innerHTML = selectShowsListed.options.length;
-}
-
-function requestShowsInfo()
-{
-    var message = { message: Constants.MESSAGE_REQUEST_SHOWS };
-    
-    // TODO: Add on response failed error handler.
-    browser.runtime.sendMessage(message).then(onShowsResponse, null);
-}
 
 function setNewUsername(new_username)
 {
