@@ -7,24 +7,6 @@ Date:           2017-2018
 
 /*****  Functions  *****/
 
-async function main()
-{
-    let items = await browser.storage.local.get('colorInfo');
-
-    if (items['colorInfo'] == null) {
-        console.log("No color information set! Use the options page to do so.");
-        return;
-    }
-
-    if (items['colorInfo'].mode == Constants.COLOR_MODES.DISABLED) {
-        return;
-    }
-
-    let response = await browser.runtime.sendMessage({type: MessageTypes.REQUEST_SHOWS});
-
-    colorUserShows(items['colorInfo'], response.shows);
-}
-
 function colorUserShows(colorInfo, userShows)
 {
     const entriesArr = document.getElementsByClassName("borderClass");
@@ -58,4 +40,23 @@ function colorUserShows(colorInfo, userShows)
     }
 }
 
+async function main()
+{
+    let items = await browser.storage.local.get('colorInfo');
+
+    if (items['colorInfo'] == null) {
+        console.log("No color information set! Use the options page to do so.");
+        return;
+    }
+
+    if (items['colorInfo'].mode == Constants.COLOR_MODES.DISABLED) {
+        return;
+    }
+
+    let response = await browser.runtime.sendMessage({type: MessageTypes.REQUEST_SHOWS});
+
+    colorUserShows(items['colorInfo'], response.shows);
+}
+
 main();
+

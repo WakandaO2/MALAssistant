@@ -11,18 +11,19 @@ function onMessageReception(message, sender, sendResponse)
 {
     switch (message.type) {
     case MessageTypes.INSERT_SHOWS:
-        return handleShowsInsert(message.shows);
+        return insertShows(message.shows, sendResponse);
     case MessageTypes.REQUEST_SHOWS:
-        return handleShowsRequest(sendResponse);
+        return sendShows(sendResponse);
     default:
         // Unknown message type. do nothing.
         return true;
     }
 }
 
-/* Functions */
 
-function handleShowsRequest(sendResponse)
+/*****  Functions  *****/
+
+function sendShows(sendResponse)
 {
     var openRequest = indexedDB.open(Constants.DATABASE_NAME);
     
@@ -49,22 +50,8 @@ function handleShowsRequest(sendResponse)
     return true;
 }
 
-function handleShowsInsert(shows)
-{
-    // Insert shows.
-    var showsToInsert = new Array();
-        
-    for (i = 0; i < shows.length; i++)
-    {
-        showsToInsert.push(shows[i]);
-    }
-            
-    insertNewData(showsToInsert);
-    return true;
-}
-
 // Inserts the new shows data to the DB, deleting the old data.
-function insertNewData(shows)
+function insertShows(shows, sendResponse)
 {
     // Sort the shows array.
     shows.sort(compareNames);
@@ -97,7 +84,7 @@ function insertNewData(shows)
         var transaction = database.transaction([Constants.SHOWS_TABLE_NAME], "readwrite");
         var objStore = transaction.objectStore(Constants.SHOWS_TABLE_NAME);
         var i = 0;
-        putNext();
+        putNext(sendResponse);
         
         function putNext() {
             if (i < shows.length) {
@@ -107,6 +94,7 @@ function insertNewData(shows)
             }
             else {
                 console.log("ADDITION COMPLETED");
+                sendResponse({farewell: "YES!"});
             }
         }    
     };

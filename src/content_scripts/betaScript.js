@@ -19,27 +19,6 @@ var MALStatusKeywords = {
 
 /*****  Functions  *****/
 
-async function main()
-{
-    let items = await browser.storage.local.get("username");
-
-    if (items["username"] == null) {
-        console.log("No username set.");
-        return;
-    }
-
-    var expected_url = Constants.MAL_ANIMELIST_FORMAT.replace("USERNAME", items['username'])
-
-    if (String(window.location).toLowerCase() !== expected_url.toLowerCase()) {
-        return;
-    }
-
-    if (confirm("Do you want to refresh your anime list?")) {
-        gatherShowsData();
-        setUsername();
-    }
-}
-
 function gatherShowsData()
 {
     /*
@@ -82,8 +61,27 @@ function setUsername()
         .catch(null);
 }
 
+async function main()
+{
+    let items = await browser.storage.local.get("username");
 
-/*****  Callback Functions  *****/
+    if (items["username"] == null) {
+        console.log("No username set.");
+        return;
+    }
+
+    var expected_url = Constants.MAL_ANIMELIST_FORMAT.replace("USERNAME", items['username'])
+
+    if (String(window.location).toLowerCase() !== expected_url.toLowerCase()) {
+        return;
+    }
+
+    if (confirm("Do you want to refresh your anime list?")) {
+        gatherShowsData();
+        setUsername();
+    }
+}
+
 
 main();
 
