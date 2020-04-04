@@ -6,7 +6,7 @@ Author:         WakandaO2
 Date:           2018
 */
 
-/***** Constants *****/
+/*****  Constants  *****/
 
 var MALStatusKeywords = {
     "watching"    : MalStatuses.WATCHING,
@@ -17,59 +17,14 @@ var MALStatusKeywords = {
 }
 
 
-/***** Functions *****/
+/*****  Functions  *****/
 
-function gatherShowsData()
+async function main()
 {
-    /*
-        list-table-data:
-            [0]'s class changes according to status
-            [6] contains the title
-    */
-    var rawEntries = document.getElementsByClassName("list-table-data"),
-        shows = new Array(),
-        currentShowStatus = 0;
-    
-    for (i = 0; i < rawEntries.length; i++) {
-        var showStatusKeyword,
-            currentShowStatus = MalStatuses.UNKNOWN;
-        
-        // Match the show entry's class name to its status.
-        showStatusKeyword = rawEntries[i].childNodes[0].className.split(' ')[2];
-        if (showStatusKeyword in MALStatusKeywords) {
-            currentShowStatus = MALStatusKeywords[showStatusKeyword];
-        }
+    let items = await browser.storage.local.get("username");
 
-        var currentShow = {
-            title: rawEntries[i].childNodes[6].childNodes[0].innerText,
-            status: currentShowStatus
-        };
-        
-        shows.push(currentShow);
-    }
-    
-    // Send the shows to the background page that will insert them to the DB.
-    chrome.runtime.sendMessage({shows: shows, message: Constants.MESSAGE_INSERT_SHOWS}, function(response) {
-    });
-}
-
-function setUsername() 
-{
-    /* The user might not give the user with the exact case MAL knows (for example: WakandaO2 - wakandao2)
-       That's why we will use MAL itself to get the exact username. */
-    var usernameCased = document.getElementsByTagName("body")[0].getAttribute("data-owner-name");
-
-    // TODO: error handler for storage set failure.
-    browser.storage.local.set({'username': usernameCased}).then(onUsernameSet, null);
-}
-
-
-/***** Callback Functions *****/
-
-function onUsernameGet(items)
-{
-    if(items['username'] == null) {
-        console.log("No username set.")
+    if (items["username"] == null) {
+        console.log("No username set.");
         return;
     }
 
@@ -85,13 +40,50 @@ function onUsernameGet(items)
     }
 }
 
-function onUsernameSet()
+function gatherShowsData()
 {
-    console.log("Username successfully updated!");
+    /*
+        list-table-data:
+            [0]'s class changes according to status
+            [6] contains the title
+    */
+    const rawEntries = document.getElementsByClassName("list-table-data");
+    var shows = new Array();
+    
+    for (i = 0; i < rawEntries.length; i++) {
+        var showStatusKeyword,
+            currentShowStatus = MalStatuses.UNKNOWN;
+        
+        // Match the show entry's class name to its status.
+        showStatusKeyword = rawEntries[i].childNodes[0].className.split(' ')[2];
+        if (showStatusKeyword in MALStatusKeywords) {
+            currentShowStatus = MALStatusKeywords[showStatusKeyword];
+        }
+
+        shows.push({ title: rawEntries[i].childNodes[6].childNodes[0].innerText, 
+                     status: currentShowStatus });
+    }
+    
+    // TODO: Add message send failure handler.
+    browser.runtime.sendMessage({type: MessageTypes.INSERT_SHOWS, shows: shows})
+        .then(function() { alert("Shows list successfully updated!"); })
+        .catch(null);
+}
+
+function setUsername() 
+{
+    /* The user might not give the user with the exact case MAL knows (for example: WakandaO2 - wakandao2)
+       That's why we will use MAL itself to get the exact username. */
+    var usernameCased = document.getElementsByTagName("body")[0].getAttribute("data-owner-name");
+
+    // TODO: error handler for storage set failure.
+    browser.storage.local.set({'username': usernameCased})
+        .then(function() { console.log("Username successfully updated!"); })
+        .catch(null);
 }
 
 
-/*****  Callback registrations  *****/
+/*****  Callback Functions  *****/
 
-browser.storage.local.get("username").then(onUsernameGet, null);
+main();
 

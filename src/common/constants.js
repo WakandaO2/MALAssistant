@@ -5,6 +5,11 @@ Author:         WakandaO2
 Date:           11/01/2019
 */
 
+var MessageTypes = {
+    INSERT_SHOWS : 0,
+    REQUEST_SHOWS : 1
+};
+
 var MalStatuses = {
     WATCHING      : 0,
     COMPLETED     : 1,
@@ -30,8 +35,4 @@ var Constants = {
     // Database constants
     DATABASE_NAME    : "ShowsDB",
     SHOWS_TABLE_NAME : "showsTable",
-    
-    // Messages used to communicate with the background page
-    MESSAGE_REQUEST_SHOWS : "RetrieveShows",
-    MESSAGE_INSERT_SHOWS  : "InsertShows"
 };

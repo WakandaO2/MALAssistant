@@ -8,7 +8,8 @@ Date:           2017-2018
 /*****  Constants  *****/
 
 const Constants = browser.extension.getBackgroundPage().Constants,
-      MalStatuses = browser.extension.getBackgroundPage().MalStatuses;
+      MalStatuses = browser.extension.getBackgroundPage().MalStatuses,
+      MessageTypes = browser.extension.getBackgroundPage().MessageTypes;
 
 const StatusFields = { 
     WATCHING       : "colorWATCH",
@@ -19,13 +20,13 @@ const StatusFields = {
 };
 
 
-/***** Global Variables  *****/
+/*****  Global Variables  *****/
 
 var gColorInfo,
     gUser;
 
 
-/***** Callback Functions *****/
+/*****  Callback Functions  *****/
 
 function refreshPage()
 {
@@ -86,7 +87,7 @@ function onOptionsPageLoad()
     browser.storage.local.get('username').then(onUsernameGet).catch(null);
     
     // TODO: Add message get fail error handler.
-    browser.runtime.sendMessage({ message: Constants.MESSAGE_REQUEST_SHOWS }).then(showListOfShows).catch(null);
+    browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS }).then(showListOfShows).catch(null);
 
     // TODO: Add storage get fail error handler.
     browser.storage.local.get('colorInfo').then(onColorInfoGet).catch(null);
@@ -156,7 +157,7 @@ function setNewColors()
         gColorInfo.oneColor = oneColorInput.value;
         break;
     case Constants.COLOR_MODES.MULTI:
-        for (var stat in StatusFields) {
+        for (stat in StatusFields) {
             gColorInfo.multiColors[MalStatuses[stat]] = document.getElementById(`${StatusFields[stat]}Input`).value;
         }
         break;
@@ -185,7 +186,7 @@ function setupMenus()
         setNewColors();
     })
 
-    for (var status in StatusFields) {
+    for (status in StatusFields) {
         (function (status) {
             let defaultField = document.getElementById(`${StatusFields[status]}Default`),
                 inputField = document.getElementById(`${StatusFields[status]}Input`);
@@ -203,7 +204,7 @@ function setupMenus()
 }
 
 
-/*****  Callback registrations  *****/
+/*****  Callback Registrations  *****/
 
 document.addEventListener('DOMContentLoaded', onOptionsPageLoad);
 
