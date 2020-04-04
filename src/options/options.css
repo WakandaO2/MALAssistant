@@ -27,7 +27,7 @@ footer {
 .defaultColors {
     font-weight:bold;
     text-decoration:underline;
-    cursor:hand;
+    cursor:pointer;
 }
 
 .chosenColors {

@@ -51,7 +51,6 @@ function insertNewData(shows)
             }
             else {
                 console.log("ADDITION COMPLETED");
-                alert("Shows list successfully refreshed.");
             }
         }    
     };

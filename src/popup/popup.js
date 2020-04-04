@@ -10,7 +10,7 @@ Date:           2017
 // Retrieve the constants from the backgroundPage's namespace.
 const Constants = browser.extension.getBackgroundPage().Constants;
 
-var USER_GREET_FORMAT = "Hello USER!"
+const USER_GREET_FORMAT = "Hello USER!"
 
 
 /*****  Callback Functions  *****/
@@ -29,7 +29,7 @@ function onPopupPageLoad()
     
     // Get the username (if set) from storage.
     // TODO: Add storage get error handler.
-    browser.storage.local.get('username').then(setUserMessage, null);
+    browser.storage.local.get('username').then(setUserMessage).catch(null);
     
     options_link.addEventListener("click", function() {
         browser.runtime.openOptionsPage();

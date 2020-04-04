@@ -7,46 +7,37 @@ Date:           2017-2018
 
 /*****  Constants  *****/
 
-const Constants = browser.extension.getBackgroundPage().Constants;
+const Constants = browser.extension.getBackgroundPage().Constants,
+      MalStatuses = browser.extension.getBackgroundPage().MalStatuses;
+
+const StatusFields = { 
+    WATCHING       : "colorWATCH",
+    COMPLETED      : "colorCMPLT",
+    ONHOLD         : "colorONHLD",
+    DROPPED        : "colorDROPD",
+    PLAN_TO_WATCH  : "colorPTW",
+};
+
 
 /***** Global Variables  *****/
 
-var gUser,
-    gOneColor,
-    gMultiColors = new Array();
-
-function toggleColorMenu(noColor, oneColor, multiColor)
-{
-        noColorMenu.style.display = noColor;
-        oneColorMenu.style.display = oneColor;
-        multiColorMenu.style.display = multiColor;
-}
+var gColorInfo,
+    gUser;
 
 
 /***** Callback Functions *****/
 
-function onNewUsernameSet()
+function refreshPage()
 {
-    alert("New username set. To update the shows, go to the username's \"All anime\" page.");
+    alert('New username set. To update the shows, go to the username\'s "All anime" page.');
     location.reload();
 }
 
-function onUsernameGet(items)
-{
-    if (items['username'] != null) {
-        storedUsername.innerHTML = items['username'];
-        gUser = items['username'];
-
-        userURL.setAttribute('href', Constants.MAL_USER_PROFILE_URL_PREFIX + gUser);
-        userURL.setAttribute('target', '_blank')
-    }
-}
-
-function onShowsResponse(response)
+function showListOfShows(response)
 {
     // The shows list is actually an associative object.
-    var showNames = Object.keys(response.farewell);
-
+    const showNames = Object.keys(response.farewell);
+    
     for (i = 0; i < showNames.length; i++)
     {
         var optionAdded = document.createElement("option");
@@ -57,169 +48,86 @@ function onShowsResponse(response)
     document.getElementById("numShowsListed").innerHTML = showNames.length;
 }
 
+function onUsernameGet(items)
+{
+    if (items['username'] == null) {
+        return;
+    }
+
+    storedUsername.innerHTML = items['username'];
+    gUser = items['username'];
+
+    userURL.setAttribute('href', Constants.MAL_USER_PROFILE_URL_PREFIX + gUser);
+    userURL.setAttribute('target', '_blank')
+}
+
+function onColorInfoGet(items)
+{
+    gColorInfo = items['colorInfo'];
+
+    if (items['colorInfo'] == null) {
+        // No color information set - use the default one.
+        gColorInfo = {
+            mode: Constants.COLOR_MODES.DISABLED,
+            oneColor: Constants.DEFAULT_ONE_COLOR,
+            multiColors: Constants.DEFAULT_COLORS
+        };
+    }
+
+    updateColorMenu();
+}
+
 function onOptionsPageLoad()
 {
     // Adds the version number to the title in the top of the page
     titleText.innerHTML += Constants.VERSION;
     
     // TODO: Add storage get fail error handler.
-    browser.storage.local.get('username').then(onUsernameGet, null);
+    browser.storage.local.get('username').then(onUsernameGet).catch(null);
     
     // TODO: Add message get fail error handler.
-    browser.runtime.sendMessage({ message: Constants.MESSAGE_REQUEST_SHOWS }).then(onShowsResponse, null);
-    
-    // Gets the user preference about Disabled/One Color/Multi Color and opens the correct menu
-    chrome.storage.sync.get('colorSelection', function(item) {
-        if(item.colorSelection == null)
-        {
-            chrome.storage.sync.set({'colorSelection':"none"},function(){
-            });
-            toggleColorMenu("block", "none", "none");
-            radioNo.checked = true;
-        }
-        else
-        {
-            if(item.colorSelection == "none")
-            {
-                toggleColorMenu("block", "none", "none");
-                radioNo.checked = true;
-            }
-            else
-            {
-                if(item.colorSelection == "one")
-                {
-                    toggleColorMenu("none", "block", "none");
-                    radioOne.checked = true;
-                }
-                else
-                {
-                    toggleColorMenu("none", "none", "block");
-                    radioMulti.checked = true;
-                }
-            }
-        }
-    });
-    
-    //Gets multi color array from storage and if there is no array creates one and puts the default colorSelection
-    chrome.storage.sync.get('multiChoosed', function(item) {
-        if(item.multiChoosed == null)
-        {
-            chrome.storage.sync.set({'multiChoosed': Constants.DEFAULT_COLORS}, function() {
-                console.log("DEFAULT COLORS SET.");
-            });
-            
-            for(i = 0; i < Constants.DEFAULT_COLORS.length; i++)
-            {
-                gMultiColors.push(Constants.DEFAULT_COLORS[i]);
-            }
-        }
-        else
-        {
-            for(i = 0; i < item.multiChoosed.length; i++)
-            {
-                gMultiColors.push(item.multiChoosed[i]);
-            }
-        }
-        multiColorWATCH.innerHTML = gMultiColors[0];
-        colorWATCHInput.value = gMultiColors[0];
-        multiColorCMPLT.innerHTML = gMultiColors[1];
-        colorCMPLTInput.value = gMultiColors[1];
-        multiColorONHLD.innerHTML = gMultiColors[2];
-        colorONHLDInput.value = gMultiColors[2];
-        multiColorDROPD.innerHTML = gMultiColors[3];
-        colorDROPDInput.value = gMultiColors[3];
-        multiColorPTW.innerHTML = gMultiColors[4];
-        colorPTWInput.value = gMultiColors[4];
-    });
-    
-    //Gets color from storage and if there is no color it puts the default one.
-    chrome.storage.sync.get('oneColorChoosed', function(item) {
-        if(item.oneColorChoosed == null)
-        {
-            chrome.storage.sync.set({'oneColorChoosed': Constants.DEFAULT_COLOR}, function() {
-            });
-            oneColorChosen.innerHTML = Constants.DEFAULT_COLOR;
-            gOneColor = Constants.DEFAULT_COLOR;
-        }
-        else
-        {
-            oneColorChosen.innerHTML = item.oneColorChoosed;
-            gOneColor = item.oneColorChoosed;
-        }
-        oneColorInput.value = oneColorChosen.innerHTML;
-    });
-    
-    
-    //Calls store username function when submit button is clicked
-    submitUsername.addEventListener("click", function() {
-        setNewUsername(usernameField.value);
-    });
-    
-    //Calls list refreshing function when refresh button is clicked
-    refreshCurrUser.addEventListener("click", function() {
-        alert("Will now refresh shows for user " + gUser + ".");
-    });
+    browser.runtime.sendMessage({ message: Constants.MESSAGE_REQUEST_SHOWS }).then(showListOfShows).catch(null);
 
-    //Handles showing/hiding of color menus
-    
-    //No Colors
-    radioNo.addEventListener("click", function() {
-        toggleColorMenu("block", "none", "none");
-        setColorSelection("none");
-    });
-    
-    //One Color
-    radioOne.addEventListener("click", function() {
-        toggleColorMenu("none", "block", "none");
-        setColorSelection("one");
-    });    
+    // TODO: Add storage get fail error handler.
+    browser.storage.local.get('colorInfo').then(onColorInfoGet).catch(null);
 
-    //Multi Colors
-    radioMulti.addEventListener("click", function() {
-        toggleColorMenu("none", "none", "block");
-        setColorSelection("multi");
-    });
-    
-    ////
-    
-    //When one color is submitted, inserts it into storage.
-    submitOneColor.addEventListener("click", function() {
-        setNewOneColor(oneColorInput.value);
-    });
-    
-    //When the submit button in multi color menu is pressed, inserts the colors into storage.
-    submitMultiColor.addEventListener("click", function() {
-        setNewMultiColors();
-    });
-    
-    defaultOneColor.addEventListener("click", function() {
-        setNewOneColor(defaultOneColor.innerHTML);
-        oneColorInput.value = defaultOneColor.innerHTML;
-    });
-    
-    defaultColorWATCH.addEventListener("click", function() {
-        colorWATCHInput.value = defaultColorWATCH.innerHTML;
-    });
-    
-    defaultColorCMPLT.addEventListener("click", function() {
-        colorCMPLTInput.value = defaultColorCMPLT.innerHTML;
-    });
-    
-    defaultColorONHLD.addEventListener("click", function() {
-        colorONHLDInput.value = defaultColorONHLD.innerHTML;
-    });
-    
-    defaultColorDROPD.addEventListener("click", function() {
-        colorDROPDInput.value = defaultColorDROPD.innerHTML;
-    });
-    
-    defaultColorPTW.addEventListener("click", function() {
-        colorPTWInput.value = defaultColorPTW.innerHTML;
-    });
+    // Setup the page's menus.
+    setupMenus();
 }
 
 
 /*****  Functions  *****/
+
+function updateColorMenu()
+{
+    noColorMenu.style.display = "none";
+    oneColorMenu.style.display = "none";
+    multiColorMenu.style.display = "none";
+
+    switch (gColorInfo.mode) {
+    case Constants.COLOR_MODES.ONE:
+        oneColorMenu.style.display = "block";
+        radioOne.checked = true;
+
+        oneColor.innerHTML = gColorInfo.oneColor;
+        oneColorInput.value = gColorInfo.oneColor;
+        break;
+    case Constants.COLOR_MODES.MULTI:
+        multiColorMenu.style.display = "block";
+        radioMulti.checked = true;
+
+        for (stat in StatusFields) {
+            document.getElementById(StatusFields[stat]).innerText = gColorInfo.multiColors[MalStatuses[stat]];
+            document.getElementById(`${StatusFields[stat]}Input`).value = gColorInfo.multiColors[MalStatuses[stat]];
+        }
+        break;
+    default:
+        /* Don't enable anything. */
+        noColorMenu.style.display = "block";
+        radioNo.checked = true;
+        break;
+    }
+}
 
 function setNewUsername(new_username)
 {
@@ -230,39 +138,68 @@ function setNewUsername(new_username)
     }
 
     // TODO: Add on storage set error handling function.
-    browser.storage.local.set({'username': new_username}).then(onNewUsernameSet, null);
+    browser.storage.local.set({'username': new_username}).then(refreshPage).catch(null);
 }
 
-function setNewOneColor(color)
+function setColorMode(mode)
 {
-    chrome.storage.sync.set({'oneColorChoosed': color}, function() {
-        oneColorChosen.innerHTML = color;
-    });
+    gColorInfo.mode = mode;
+    
+    // TODO: Add on storage set error handling function.
+    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu).catch(null);
 }
 
-//Inserts the selection of color scheme (e.g: no colors, one color, multi color) into storage
-function setColorSelection(selection)
+function setNewColors()
 {
-    chrome.storage.sync.set({'colorSelection': selection}, function() {
-    });
+    switch (gColorInfo.mode) {
+    case Constants.COLOR_MODES.ONE:
+        gColorInfo.oneColor = oneColorInput.value;
+        break;
+    case Constants.COLOR_MODES.MULTI:
+        for (var stat in StatusFields) {
+            gColorInfo.multiColors[MalStatuses[stat]] = document.getElementById(`${StatusFields[stat]}Input`).value;
+        }
+        break;
+    default:
+        // This should not happen.
+        return;
+    }
+
+    // TODO: Add on storage set error handling function.
+    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu).catch(null);
 }
 
-function setNewMultiColors()
+function setupMenus()
 {
-    var multiColors = new Array();
-    multiColors.push(colorWATCHInput.value);
-    multiColors.push(colorCMPLTInput.value);
-    multiColors.push(colorONHLDInput.value);
-    multiColors.push(colorDROPDInput.value);
-    multiColors.push(colorPTWInput.value);
-    chrome.storage.sync.set({'multiChoosed': multiColors}, function() {
-        multiColorWATCH.innerHTML = multiColors[0];
-        multiColorCMPLT.innerHTML = multiColors[1];
-        multiColorONHLD.innerHTML = multiColors[2];
-        multiColorDROPD.innerHTML = multiColors[3];
-        multiColorPTW.innerHTML = multiColors[4];
-        alert("New colors set.");
+    submitUsername.addEventListener("click", function() { setNewUsername(usernameField.value); });
+
+    refreshShows.addEventListener("click", function() {
+        browser.tabs.create({url: Constants.MAL_ANIMELIST_FORMAT.replace("USERNAME", gUser)});
     });
+
+    radioNo.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.DISABLED) });
+    radioOne.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.ONE) });
+    radioMulti.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.MULTI) });
+
+    oneColorInput.addEventListener("change", function() {
+        setNewColors();
+    })
+
+    for (var status in StatusFields) {
+        (function (status) {
+            let defaultField = document.getElementById(`${StatusFields[status]}Default`),
+                inputField = document.getElementById(`${StatusFields[status]}Input`);
+    
+            inputField.addEventListener("change", function() {
+                setNewColors();
+            });
+    
+            defaultField.addEventListener("click", function() {
+                inputField.value = Constants.DEFAULT_COLORS[MalStatuses[status]];
+                setNewColors();
+            });
+        })(status);
+    }
 }
 
 
