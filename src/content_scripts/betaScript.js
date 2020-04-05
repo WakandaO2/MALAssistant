@@ -29,17 +29,17 @@ function gatherShowsData()
     const rawEntries = document.getElementsByClassName("list-table-data");
     var shows = new Array();
     
-    for (i = 0; i < rawEntries.length; i++) {
+    for (rawEntry of rawEntries) {
         var showStatusKeyword,
             currentShowStatus = MalStatuses.UNKNOWN;
         
         // Match the show entry's class name to its status.
-        showStatusKeyword = rawEntries[i].childNodes[0].className.split(' ')[2];
+        showStatusKeyword = rawEntry.childNodes[0].className.split(' ')[2];
         if (showStatusKeyword in MALStatusKeywords) {
             currentShowStatus = MALStatusKeywords[showStatusKeyword];
         }
 
-        shows.push({ title: rawEntries[i].childNodes[6].childNodes[0].innerText, 
+        shows.push({ title: rawEntry.childNodes[6].childNodes[0].innerText, 
                      status: currentShowStatus });
     }
     

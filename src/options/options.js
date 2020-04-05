@@ -36,37 +36,35 @@ function refreshPage()
 
 function showListOfShows(response)
 {
-    // The shows list is actually an associative object.
-    const showNames = Object.keys(response.shows);
-    
-    for (i = 0; i < showNames.length; i++)
-    {
-        var optionAdded = document.createElement("option");
-        optionAdded.text = showNames[i];
+    var optionAdded;
+
+    for (showName in response.shows) {
+        optionAdded = document.createElement("option");
+        optionAdded.text = showName;
         selectShowsListed.options.add(optionAdded);
     }
 
-    document.getElementById("numShowsListed").innerHTML = showNames.length;
+    document.getElementById("numShowsListed").innerText = selectShowsListed.options.length;
 }
 
 function onUsernameGet(items)
 {
-    if (items['username'] == null) {
+    if (!items['username']) {
         return;
     }
 
-    storedUsername.innerHTML = items['username'];
+    storedUsername.innerText = items['username'];
     gUser = items['username'];
 
     userURL.setAttribute('href', Constants.MAL_USER_PROFILE_URL_PREFIX + gUser);
-    userURL.setAttribute('target', '_blank')
+    userURL.setAttribute('target', '_blank');
 }
 
 function onColorInfoGet(items)
 {
     gColorInfo = items['colorInfo'];
 
-    if (items['colorInfo'] == null) {
+    if (!items['colorInfo']) {
         // No color information set - use the default one.
         gColorInfo = {
             mode: Constants.COLOR_MODES.DISABLED,
@@ -80,8 +78,7 @@ function onColorInfoGet(items)
 
 function onOptionsPageLoad()
 {
-    // Adds the version number to the title in the top of the page
-    titleText.innerHTML += Constants.VERSION;
+    titleText.innerText += Constants.VERSION;
     
     // TODO: Add storage get fail error handler.
     browser.storage.local.get('username').then(onUsernameGet).catch(null);
@@ -92,7 +89,6 @@ function onOptionsPageLoad()
     // TODO: Add storage get fail error handler.
     browser.storage.local.get('colorInfo').then(onColorInfoGet).catch(null);
 
-    // Setup the page's menus.
     setupMenus();
 }
 
@@ -110,7 +106,7 @@ function updateColorMenu()
         oneColorMenu.style.display = "block";
         radioOne.checked = true;
 
-        oneColor.innerHTML = gColorInfo.oneColor;
+        oneColor.innerText = gColorInfo.oneColor;
         oneColorInput.value = gColorInfo.oneColor;
         break;
     case Constants.COLOR_MODES.MULTI:
@@ -123,7 +119,7 @@ function updateColorMenu()
         }
         break;
     default:
-        /* Don't enable anything. */
+        // Actually disabled.
         noColorMenu.style.display = "block";
         radioNo.checked = true;
         break;
@@ -132,7 +128,6 @@ function updateColorMenu()
 
 function setNewUsername(new_username)
 {
-    // New username validation.
     if ((new_username == null) || (new_username[0] == ' ') || (new_username == "")) {
         alert("Invalid username. Please enter a valid one.");
         return;
@@ -172,30 +167,26 @@ function setNewColors()
 
 function setupMenus()
 {
-    submitUsername.addEventListener("click", function() { setNewUsername(usernameField.value); });
+    submitUsername.addEventListener("click", () => { setNewUsername(usernameField.value); });
 
-    refreshShows.addEventListener("click", function() {
-        browser.tabs.create({url: Constants.MAL_ANIMELIST_FORMAT.replace("USERNAME", gUser)});
+    refreshShows.addEventListener("click", () => {
+        browser.tabs.create({ url: Constants.MAL_ANIMELIST_FORMAT.replace("USERNAME", gUser) });
     });
 
-    radioNo.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.DISABLED) });
-    radioOne.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.ONE) });
-    radioMulti.addEventListener("click", function() { setColorMode(Constants.COLOR_MODES.MULTI) });
+    radioNo.addEventListener("click", () => { setColorMode(Constants.COLOR_MODES.DISABLED) });
+    radioOne.addEventListener("click", () => { setColorMode(Constants.COLOR_MODES.ONE) });
+    radioMulti.addEventListener("click", () => { setColorMode(Constants.COLOR_MODES.MULTI) });
 
-    oneColorInput.addEventListener("change", function() {
-        setNewColors();
-    })
+    oneColorInput.addEventListener("change", () => { setNewColors(); });
 
     for (status in StatusFields) {
-        (function (status) {
-            let defaultField = document.getElementById(`${StatusFields[status]}Default`),
-                inputField = document.getElementById(`${StatusFields[status]}Input`);
+        ((status) => {
+            let inputField = document.getElementById(`${StatusFields[status]}Input`);
     
-            inputField.addEventListener("change", function() {
-                setNewColors();
-            });
+            inputField.addEventListener("change", () => { setNewColors(); });
     
-            defaultField.addEventListener("click", function() {
+            document.getElementById(`${StatusFields[status]}Default`)
+                    .addEventListener("click", () => {
                 inputField.value = Constants.DEFAULT_COLORS[MalStatuses[status]];
                 setNewColors();
             });

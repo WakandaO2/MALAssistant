@@ -27,10 +27,10 @@ var Constants = {
     MAL_USER_PROFILE_URL_PREFIX : "https://myanimelist.net/profile/",
     MAL_ANIMELIST_FORMAT        : "https://myanimelist.net/animelist/USERNAME?status=7",
 
-    /* Default colors for multi-colors mode. */
-    DEFAULT_COLORS : ["#c8edb6", "#84a0e8", "#f9f193", "#eb9091", "#d2d2d2"],
+    // Color-related values
+    DEFAULT_COLORS    : ["#c8edb6", "#84a0e8", "#f9f193", "#eb9091", "#d2d2d2"],
     DEFAULT_ONE_COLOR : "#c8edb6",
-    COLOR_MODES    : { DISABLED : 0, ONE : 1, MULTI : 2},
+    COLOR_MODES       : { DISABLED : 0, ONE : 1, MULTI : 2},
 
     // Database constants
     DATABASE_NAME  : "MALAssistantDB",

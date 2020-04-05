@@ -12,8 +12,7 @@ function colorUserShows(colorInfo, userShows)
     const entriesArr = document.getElementsByClassName("borderClass");
     var entryTitle,
         currentShow,
-        colorToUse,
-        lineToColor;
+        colorToUse;
         
     /* In the "Voice Acting Roles" section we will go on each line twice.
        This solution was added to make sure we will go 
@@ -21,7 +20,7 @@ function colorUserShows(colorInfo, userShows)
     for (i = 2; i < entriesArr.length; i += 2) {
         entryTitle = entriesArr[i].childNodes[0];
 
-        if (userShows.hasOwnProperty(entryTitle.innerText)) {
+        if (userShows[entryTitle.innerText]) {
             /* Now we know the show exists in the user's shows list. */
             currentShow = userShows[entryTitle.innerText];
 
@@ -32,8 +31,7 @@ function colorUserShows(colorInfo, userShows)
             }
             
             /* Color the entire line in the table. (<a> --> <td> --> <tr>)*/
-            lineToColor = entryTitle.parentElement.parentElement;
-            lineToColor.style.backgroundColor = colorToUse;
+            entryTitle.parentElement.parentElement.style.backgroundColor = colorToUse;
         }
     }
 }
@@ -55,6 +53,7 @@ async function main()
 
     colorUserShows(items['colorInfo'], response.shows);
 }
+
 
 main();
 

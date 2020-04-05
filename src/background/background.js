@@ -9,7 +9,7 @@ Date:           2017-2018
 
 function onDatabaseUpgradeNeeded(event)
 {
-    var db = event.target.result;
+    const db = event.target.result;
     
     if (!(Constants.SHOWS_OBJSTORE in db.objectStoreNames)) {
         db.createObjectStore(Constants.SHOWS_OBJSTORE, { autoIncrement:true });
@@ -56,12 +56,12 @@ function sendShows(sendResponse)
         dataRequest.onerror = onDatabaseError;
 
         dataRequest.onsuccess = () => {
-            const dbEntries = dataRequest.result;
             var showsList = new Array();
-            for (i = 0; i < dbEntries.length; i++) {
-                /* Create the associative array that contains the show. */
-                showsList[dbEntries[i].title] = { title: dbEntries[i].title, 
-                                                  status: dbEntries[i].status };
+
+            for (dbEntry of dataRequest.result) {
+                /* Create the associative array that contains the shows. */
+                showsList[dbEntry.title] = { title: dbEntry.title, 
+                                             status: dbEntry.status };
             }
 
             db.close();
@@ -92,7 +92,7 @@ function insertShows(shows, sendResponse)
         clearRequest.onsuccess = () => {
             console.log("Object store was successfully cleared.");
             var i = 0;
-            putNext(sendResponse);
+            putNext();
             
             function putNext() {
                 if (i < shows.length) {
@@ -107,11 +107,13 @@ function insertShows(shows, sendResponse)
                 db.close();
 
                 console.log("Shows insertion completed.");
-                sendResponse({farewell: "Finished shows insertion!"});
+                sendResponse({farewell: null});
                 return true;
             }
         };
     };
+
+    return true;
 }
 
 
