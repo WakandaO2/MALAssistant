@@ -14,7 +14,7 @@ var MALStatusKeywords = {
     "onhold"      : MalStatuses.ONHOLD,
     "dropped"     : MalStatuses.DROPPED,
     "plantowatch" : MalStatuses.PLAN_TO_WATCH
-}
+};
 
 
 /*****  Functions  *****/
@@ -29,7 +29,7 @@ function gatherShowsData()
     const rawEntries = document.getElementsByClassName("list-table-data");
     var shows = new Array();
     
-    for (rawEntry of rawEntries) {
+    for (let rawEntry of rawEntries) {
         var showStatusKeyword,
             currentShowStatus = MalStatuses.UNKNOWN;
         
@@ -45,7 +45,7 @@ function gatherShowsData()
     
     // TODO: Add message send failure handler.
     browser.runtime.sendMessage({type: MessageTypes.INSERT_SHOWS, shows: shows})
-        .then(function() { alert("Shows list successfully updated!"); })
+        .then(() => { alert("Shows list successfully updated!"); })
         .catch(null);
 }
 
@@ -57,7 +57,7 @@ function setUsername()
 
     // TODO: error handler for storage set failure.
     browser.storage.local.set({'username': usernameCased})
-        .then(function() { console.log("Username successfully updated!"); })
+        .then(() => { console.log("Username successfully updated!"); })
         .catch(null);
 }
 
@@ -65,7 +65,7 @@ async function main()
 {
     let items = await browser.storage.local.get("username");
 
-    if (items["username"] == null) {
+    if (!items["username"]) {
         console.log("No username set.");
         return;
     }

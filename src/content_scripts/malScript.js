@@ -40,7 +40,7 @@ async function main()
 {
     let items = await browser.storage.local.get('colorInfo');
 
-    if (items['colorInfo'] == null) {
+    if (!items['colorInfo']) {
         console.log("No color information set! Use the options page to do so.");
         return;
     }
@@ -49,7 +49,7 @@ async function main()
         return;
     }
 
-    let response = await browser.runtime.sendMessage({type: MessageTypes.REQUEST_SHOWS});
+    let response = await browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS });
 
     colorUserShows(items['colorInfo'], response.shows);
 }

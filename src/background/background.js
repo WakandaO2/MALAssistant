@@ -26,21 +26,25 @@ function onDatabaseError(event)
 
 function onMessageReception(message, sender, sendResponse)
 {
-    switch (message.type) {
-    case MessageTypes.INSERT_SHOWS:
-        return insertShows(message.shows, sendResponse);
-    case MessageTypes.REQUEST_SHOWS:
-        return sendShows(sendResponse);
-    default:
-        // Unknown message type. do nothing.
-        return true;
-    }
+    return new Promise(resolve => {
+        switch (message.type) {
+        case MessageTypes.INSERT_SHOWS:
+            insertShows(resolve, message.shows);
+            break;
+        case MessageTypes.REQUEST_SHOWS:
+            sendShows(resolve);
+            break;
+        default:
+            // Unknown message type. do nothing.
+            resolve(true);
+        }
+    });
 }
 
 
 /*****  Functions  *****/
 
-function sendShows(sendResponse)
+function sendShows(resolve)
 {
     var openRequest = indexedDB.open(Constants.DATABASE_NAME, 1);
     
@@ -56,7 +60,7 @@ function sendShows(sendResponse)
         dataRequest.onerror = onDatabaseError;
 
         dataRequest.onsuccess = () => {
-            var showsList = new Array();
+            var showsList = { };
 
             for (dbEntry of dataRequest.result) {
                 /* Create the associative array that contains the shows. */
@@ -65,14 +69,14 @@ function sendShows(sendResponse)
             }
 
             db.close();
-            sendResponse({shows: showsList});
+            resolve({shows: showsList});
         };
     };
     
     return true;
 }
 
-function insertShows(shows, sendResponse)
+function insertShows(resolve, shows)
 {
     shows.sort(compareShowNames);
 
@@ -107,13 +111,10 @@ function insertShows(shows, sendResponse)
                 db.close();
 
                 console.log("Shows insertion completed.");
-                sendResponse({farewell: null});
-                return true;
+                resolve(true);
             }
         };
     };
-
-    return true;
 }
 
 

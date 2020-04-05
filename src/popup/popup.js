@@ -17,7 +17,7 @@ const USER_GREET_FORMAT = "Hello USER!"
 
 function setUserMessage(items)
 {
-    if (items['username'] != null) {
+    if (items['username']) {
         userText.innerHTML = USER_GREET_FORMAT.replace("USER", items['username']);
     }
 }

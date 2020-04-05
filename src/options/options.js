@@ -38,7 +38,7 @@ function showListOfShows(response)
 {
     var optionAdded;
 
-    for (showName in response.shows) {
+    for (let showName in response.shows) {
         optionAdded = document.createElement("option");
         optionAdded.text = showName;
         selectShowsListed.options.add(optionAdded);
@@ -113,7 +113,7 @@ function updateColorMenu()
         multiColorMenu.style.display = "block";
         radioMulti.checked = true;
 
-        for (stat in StatusFields) {
+        for (let stat in StatusFields) {
             document.getElementById(StatusFields[stat]).innerText = gColorInfo.multiColors[MalStatuses[stat]];
             document.getElementById(`${StatusFields[stat]}Input`).value = gColorInfo.multiColors[MalStatuses[stat]];
         }
@@ -152,7 +152,7 @@ function setNewColors()
         gColorInfo.oneColor = oneColorInput.value;
         break;
     case Constants.COLOR_MODES.MULTI:
-        for (stat in StatusFields) {
+        for (let stat in StatusFields) {
             gColorInfo.multiColors[MalStatuses[stat]] = document.getElementById(`${StatusFields[stat]}Input`).value;
         }
         break;
@@ -179,7 +179,7 @@ function setupMenus()
 
     oneColorInput.addEventListener("change", () => { setNewColors(); });
 
-    for (status in StatusFields) {
+    for (let status in StatusFields) {
         ((status) => {
             let inputField = document.getElementById(`${StatusFields[status]}Input`);
     
