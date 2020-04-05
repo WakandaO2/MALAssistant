@@ -18,12 +18,10 @@ function colorUserShows(colorInfo, userShows)
     /* In the "Voice Acting Roles" section we will go on each line twice.
        This solution was added to make sure we will go 
        through all the lines in the "Anime Staff" section. */
-    for (i = 2; i < entriesArr.length; i += 2)
-    {
+    for (i = 2; i < entriesArr.length; i += 2) {
         entryTitle = entriesArr[i].childNodes[0];
 
-        if (userShows.hasOwnProperty(entryTitle.innerText))
-        {
+        if (userShows.hasOwnProperty(entryTitle.innerText)) {
             /* Now we know the show exists in the user's shows list. */
             currentShow = userShows[entryTitle.innerText];
 

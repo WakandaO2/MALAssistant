@@ -6,7 +6,7 @@ Date:           11/01/2019
 */
 
 var MessageTypes = {
-    INSERT_SHOWS : 0,
+    INSERT_SHOWS  : 0,
     REQUEST_SHOWS : 1
 };
 
@@ -33,6 +33,6 @@ var Constants = {
     COLOR_MODES    : { DISABLED : 0, ONE : 1, MULTI : 2},
 
     // Database constants
-    DATABASE_NAME    : "ShowsDB",
-    SHOWS_TABLE_NAME : "showsTable",
+    DATABASE_NAME  : "MALAssistantDB",
+    SHOWS_OBJSTORE : "Shows",
 };

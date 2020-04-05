@@ -7,6 +7,23 @@ Date:           2017-2018
 
 /*****  Callback Functions  *****/
 
+function onDatabaseUpgradeNeeded(event)
+{
+    var db = event.target.result;
+    
+    if (!(Constants.SHOWS_OBJSTORE in db.objectStoreNames)) {
+        db.createObjectStore(Constants.SHOWS_OBJSTORE, { autoIncrement:true });
+        console.log("Shows object store created.");
+    }
+
+    return true;
+}
+
+function onDatabaseError(event)
+{
+    console.log(`${typeof(event.target)} error: ${event.target.error}`);
+}
+
 function onMessageReception(message, sender, sendResponse)
 {
     switch (message.type) {
@@ -25,78 +42,75 @@ function onMessageReception(message, sender, sendResponse)
 
 function sendShows(sendResponse)
 {
-    var openRequest = indexedDB.open(Constants.DATABASE_NAME);
+    var openRequest = indexedDB.open(Constants.DATABASE_NAME, 1);
     
-    openRequest.onsuccess = function(e){
-        var database = e.target.result;
-        var transaction = database.transaction([Constants.SHOWS_TABLE_NAME], "readonly");
-        var objStore = transaction.objectStore(Constants.SHOWS_TABLE_NAME);
-        
+    openRequest.onupgradeneeded = onDatabaseUpgradeNeeded;
+    openRequest.onerror = onDatabaseError;
+
+    openRequest.onsuccess = () => {
+        const db = openRequest.result,
+              objStore = db.transaction([Constants.SHOWS_OBJSTORE], "readonly")
+                           .objectStore(Constants.SHOWS_OBJSTORE);
         var dataRequest = objStore.getAll();
-    
-        dataRequest.onsuccess = function(e){
-            var showsList = new Object();
-            for(i = 0; i < e.target.result.length; i++)
-            {
-                /* Create the associative OBJECT that contains the show. */
-                showsList[e.target.result[i].title] = { title: e.target.result[i].title, status: e.target.result[i].status };
-            }
-            database.close();
             
+        dataRequest.onerror = onDatabaseError;
+
+        dataRequest.onsuccess = () => {
+            const dbEntries = dataRequest.result;
+            var showsList = new Array();
+            for (i = 0; i < dbEntries.length; i++) {
+                /* Create the associative array that contains the show. */
+                showsList[dbEntries[i].title] = { title: dbEntries[i].title, 
+                                                  status: dbEntries[i].status };
+            }
+
+            db.close();
             sendResponse({shows: showsList});
-        }
-    }
+        };
+    };
     
     return true;
 }
 
-// Inserts the new shows data to the DB, deleting the old data.
 function insertShows(shows, sendResponse)
 {
-    // Sort the shows array.
     shows.sort(compareShowNames);
-    
-    //Request for deleting old data (if exists)
-    var resetRequest = indexedDB.deleteDatabase(Constants.DATABASE_NAME); 
-    resetRequest.onsuccess = function(e){
-        console.log("OLD DATA DELETED.");
-    };
-    
-    //Opening new database for new shows data
+
     var openRequest = indexedDB.open(Constants.DATABASE_NAME, 1);
     
-    //Will get here before success - everything that should be initialized goes here
-    openRequest.onupgradeneeded = function(e){
-        console.log("NEW DATABASE INITIALIZING...");
-        var newDB = e.target.result;
-        
-        if(!newDB.objectStoreNames.contains(Constants.SHOWS_TABLE_NAME))
-        {
-            newDB.createObjectStore(Constants.SHOWS_TABLE_NAME, {autoIncrement:true});
-            console.log("OBJECT STORE CREATED.");
-        }
-    };
-    
-    //After everything is initialized, gets here
-    openRequest.onsuccess = function(e){
-        console.log("DATABASE INITIALIZED. INSTERING DATA.");
-        var database = e.target.result;
-        var transaction = database.transaction([Constants.SHOWS_TABLE_NAME], "readwrite");
-        var objStore = transaction.objectStore(Constants.SHOWS_TABLE_NAME);
-        var i = 0;
-        putNext(sendResponse);
-        
-        function putNext() {
-            if (i < shows.length) {
-                var addRequest = objStore.add(shows[i]);
-                i++;
-                addRequest.onsuccess = putNext();
+    openRequest.onupgradeneeded = onDatabaseUpgradeNeeded;
+    openRequest.onerror = onDatabaseError;
+
+    openRequest.onsuccess = () => {
+        const db = openRequest.result,
+              objStore = db.transaction([Constants.SHOWS_OBJSTORE], "readwrite")
+                           .objectStore(Constants.SHOWS_OBJSTORE);
+        var clearRequest = objStore.clear();
+
+        clearRequest.onerror = onDatabaseError;
+
+        clearRequest.onsuccess = () => {
+            console.log("Object store was successfully cleared.");
+            var i = 0;
+            putNext(sendResponse);
+            
+            function putNext() {
+                if (i < shows.length) {
+                    var addRequest = objStore.add(shows[i]);
+                    addRequest.onerror = onDatabaseError;
+                    addRequest.onsuccess = putNext;
+
+                    i++;
+                    return true;
+                }
+                
+                db.close();
+
+                console.log("Shows insertion completed.");
+                sendResponse({farewell: "Finished shows insertion!"});
+                return true;
             }
-            else {
-                console.log("ADDITION COMPLETED");
-                sendResponse({farewell: "YES!"});
-            }
-        }    
+        };
     };
 }
 
