@@ -24,17 +24,30 @@
 
     "content_scripts": [
         {
-            "js": ["common/constants.js", "content_scripts/malScript.js"],
-            "matches": ["https://myanimelist.net/people/*"]
+            "js": [
+                "lib/browser-polyfill.js", 
+                "common/constants.js", 
+                "content_scripts/malScript.js"
+            ],
+            "matches": [ "https://myanimelist.net/people/*" ]
         },
         {
-            "js": ["common/constants.js", "content_scripts/betaScript.js"],
-            "matches": ["https://myanimelist.net/animelist/*"]
+            "js": [
+                "lib/browser-polyfill.js", 
+                "common/constants.js", 
+                "content_scripts/betaScript.js"
+            ],
+            "matches": [ "https://myanimelist.net/animelist/*" ]
         }
     ],
   
     "background": {
-        "scripts": ["common/constants.js", "common/utils.js", "background/background.js"]
+        "scripts": [
+            "lib/browser-polyfill.js", 
+            "common/constants.js", 
+            "common/utils.js", 
+            "background/background.js"
+        ]
     },
   
     "web_accessible_resources": [
