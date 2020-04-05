@@ -7,7 +7,7 @@ Date:           11/01/2019
 
 /* Auxiliary functions */
 
-function compareNames(firstShow, secondShow) {
+function compareShowNames(firstShow, secondShow) {
     if (firstShow.title < secondShow.title)
         return -1;
 

@@ -37,7 +37,7 @@ function refreshPage()
 function showListOfShows(response)
 {
     // The shows list is actually an associative object.
-    const showNames = Object.keys(response.farewell);
+    const showNames = Object.keys(response.shows);
     
     for (i = 0; i < showNames.length; i++)
     {

@@ -54,7 +54,7 @@ function sendShows(sendResponse)
 function insertShows(shows, sendResponse)
 {
     // Sort the shows array.
-    shows.sort(compareNames);
+    shows.sort(compareShowNames);
     
     //Request for deleting old data (if exists)
     var resetRequest = indexedDB.deleteDatabase(Constants.DATABASE_NAME); 
