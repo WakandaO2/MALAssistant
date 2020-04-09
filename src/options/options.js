@@ -7,10 +7,6 @@ Date:           2017-2018
 
 /*****  Constants  *****/
 
-const Constants = browser.extension.getBackgroundPage().Constants,
-      MalStatuses = browser.extension.getBackgroundPage().MalStatuses,
-      MessageTypes = browser.extension.getBackgroundPage().MessageTypes;
-
 const StatusFields = { 
     WATCHING       : "colorWATCH",
     COMPLETED      : "colorCMPLT",
@@ -76,18 +72,23 @@ function onColorInfoGet(items)
     updateColorMenu();
 }
 
+function onColorInfoSetError(error)
+{
+    return onGenericError("Color information set failed", error);
+}
+
 function onOptionsPageLoad()
 {
     titleText.innerText += Constants.VERSION;
     
-    // TODO: Add storage get fail error handler.
-    browser.storage.local.get('username').then(onUsernameGet).catch(null);
+    browser.storage.local.get('username').then(onUsernameGet)
+    .catch(onUsernameGetError);
     
-    // TODO: Add message get fail error handler.
-    browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS }).then(showListOfShows).catch(null);
+    browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS }).then(showListOfShows)
+    .catch(onMessageSendError);
 
-    // TODO: Add storage get fail error handler.
-    browser.storage.local.get('colorInfo').then(onColorInfoGet).catch(null);
+    browser.storage.local.get('colorInfo').then(onColorInfoGet)
+    .catch(onColorInfoGetError);
 
     setupMenus();
 }
@@ -133,16 +134,16 @@ function setNewUsername(new_username)
         return;
     }
 
-    // TODO: Add on storage set error handling function.
-    browser.storage.local.set({'username': new_username}).then(refreshPage).catch(null);
+    browser.storage.local.set({'username': new_username}).then(refreshPage)
+    .catch(onUsernameSetError);
 }
 
 function setColorMode(mode)
 {
     gColorInfo.mode = mode;
     
-    // TODO: Add on storage set error handling function.
-    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu).catch(null);
+    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu)
+    .catch(onColorInfoSetError);
 }
 
 function setNewColors()
@@ -161,8 +162,8 @@ function setNewColors()
         return;
     }
 
-    // TODO: Add on storage set error handling function.
-    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu).catch(null);
+    browser.storage.local.set({'colorInfo': gColorInfo}).then(updateColorMenu)
+    .catch(onColorInfoSetError);
 }
 
 function setupMenus()

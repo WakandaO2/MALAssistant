@@ -38,7 +38,14 @@ function colorUserShows(colorInfo, userShows)
 
 async function main()
 {
-    let items = await browser.storage.local.get('colorInfo');
+    let items,
+        response;
+
+    try {
+        items = await browser.storage.local.get('colorInfo');
+    } catch (error) {
+        return onColorInfoGetError(error);
+    }
 
     if (!items['colorInfo']) {
         console.log("No color information set! Use the options page to do so.");
@@ -49,7 +56,11 @@ async function main()
         return;
     }
 
-    let response = await browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS });
+    try {
+        response = await browser.runtime.sendMessage({ type: MessageTypes.REQUEST_SHOWS });
+    } catch {
+        return onMessageSendError(error);
+    }
 
     colorUserShows(items['colorInfo'], response.shows);
 }

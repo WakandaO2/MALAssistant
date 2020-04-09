@@ -69,7 +69,7 @@ function sendShows(resolve)
             }
 
             db.close();
-            resolve({shows: showsList});
+            resolve({ shows: showsList });
         };
     };
     

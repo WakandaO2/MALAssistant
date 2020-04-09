@@ -46,7 +46,7 @@ function gatherShowsData()
     // TODO: Add message send failure handler.
     browser.runtime.sendMessage({type: MessageTypes.INSERT_SHOWS, shows: shows})
         .then(() => { alert("Shows list successfully updated!"); })
-        .catch(null);
+        .catch(onMessageSendError);
 }
 
 function setUsername() 
@@ -58,12 +58,18 @@ function setUsername()
     // TODO: error handler for storage set failure.
     browser.storage.local.set({'username': usernameCased})
         .then(() => { console.log("Username successfully updated!"); })
-        .catch(null);
+        .catch(onUsernameSetError);
 }
 
 async function main()
 {
-    let items = await browser.storage.local.get("username");
+    let items;
+
+    try {
+        items = await browser.storage.local.get("username");
+    } catch(error) {
+        return onUsernameGetError(error);
+    }
 
     if (!items["username"]) {
         console.log("No username set.");
