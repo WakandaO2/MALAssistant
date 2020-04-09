@@ -1,0 +1,35 @@
+html, body {
+    height:25%;
+    text-align:center;
+    font-family:'Segoe UI';
+}
+
+footer {
+    font-size:75%;
+}
+
+a:link,a:visited,a:active {
+    font-weight:bold;
+    color:Gray;
+    padding-bottom:3%;
+}
+
+a:hover{
+    color:Black;
+}
+
+#titleText {
+    font-size:135%;
+}
+
+#userText {
+    font-size:110%;
+    margin-top:-4%;
+    margin-bottom:2%;
+    color:#2e51a2;
+}
+
+#options_link {
+    cursor:pointer;
+    text-decoration:underline;
+}
