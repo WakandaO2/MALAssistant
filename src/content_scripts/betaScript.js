@@ -43,7 +43,6 @@ function gatherShowsData()
                      status: currentShowStatus });
     }
     
-    // TODO: Add message send failure handler.
     browser.runtime.sendMessage({type: MessageTypes.INSERT_SHOWS, shows: shows})
         .then(() => { alert("Shows list successfully updated!"); })
         .catch(onMessageSendError);
@@ -55,7 +54,6 @@ function setUsername()
        That's why we will use MAL itself to get the exact username. */
     var usernameCased = document.getElementsByTagName("body")[0].getAttribute("data-owner-name");
 
-    // TODO: error handler for storage set failure.
     browser.storage.local.set({'username': usernameCased})
         .then(() => { console.log("Username successfully updated!"); })
         .catch(onUsernameSetError);
