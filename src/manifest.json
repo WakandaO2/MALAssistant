@@ -27,7 +27,7 @@
             "js": [
                 "lib/browser-polyfill.js", 
                 "common/common.js", 
-                "content_scripts/malScript.js"
+                "content_scripts/people/colorUserShows.js"
             ],
             "matches": [ "https://myanimelist.net/people/*" ]
         },
@@ -35,9 +35,17 @@
             "js": [
                 "lib/browser-polyfill.js", 
                 "common/common.js", 
-                "content_scripts/betaScript.js"
+                "content_scripts/getUserShowsBeta.js"
             ],
             "matches": [ "https://myanimelist.net/animelist/*" ]
+        },
+        {
+            "js": [
+                "lib/browser-polyfill.js",
+                "common/common.js",
+                "content_scripts/profile/showListProgress.js"
+            ],
+            "matches": [ "https://myanimelist.net/profile/*" ]
         }
     ],
   
@@ -48,12 +56,7 @@
             "background/background.js"
         ]
     },
-  
-    "web_accessible_resources": [
-        "content_scripts/MALScript.js",
-        "content_scripts/betaScript.js"
-    ],
-  
+
     "permissions": [
         "activeTab",
         "tabs",

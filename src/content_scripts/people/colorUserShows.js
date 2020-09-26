@@ -1,15 +1,20 @@
 /*
-Name:           malScript.js
-Description:    Content script responsible for coloring the user's shows.
+Name:           colorUserShows.js
+Description:    Color the user's shows in people pages.
 Author:         WakandaO2
 Date:           2017-2018
 */
+
+/*****  Constants  *****/
+
+const LIST_ENTRY_CLASS_NAME = "borderClass";
+
 
 /*****  Functions  *****/
 
 function colorUserShows(colorInfo, userShows)
 {
-    const entriesArr = document.getElementsByClassName("borderClass");
+    const entriesArr = document.getElementsByClassName(LIST_ENTRY_CLASS_NAME);
     var entryTitle,
         currentShow,
         colorToUse;
@@ -67,4 +72,3 @@ async function main()
 
 
 main();
-

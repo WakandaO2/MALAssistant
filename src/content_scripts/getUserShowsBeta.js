@@ -1,5 +1,5 @@
 /*
-Name:           betaScript.js
+Name:           getUserShowsBeta.js
 Description:    Contains a new method to get the shows (using the user profile's 'All Shows' table), 
                 since MAL API is down.
 Author:         WakandaO2
@@ -88,4 +88,3 @@ async function main()
 
 
 main();
-
