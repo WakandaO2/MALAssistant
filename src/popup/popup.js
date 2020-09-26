@@ -10,14 +10,14 @@ Date:           2017
 function setUserMessage(items)
 {
     if (items['username']) {
-        userText.innerHTML = `Hello ${items['username']}!`;
+        userText.innerText = `Hello ${items['username']}!`;
     }
 }
 
 function onPopupPageLoad()
 {
     // Add the version number to the top of the popup page.
-    titleText.innerHTML += Constants.VERSION;
+    titleText.innerText += Constants.VERSION;
     
     // Get the username (if set) from storage.
     browser.storage.local.get('username').then(setUserMessage)
