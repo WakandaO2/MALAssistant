@@ -33,7 +33,7 @@ function showListProgress()
         /* Show the progress for only relevant updates.
            "Watching" for Anime and "Reading" for manga are the only relevant updates. */
         if ((-1 !== listUpdateInfo.innerText.search("Completed")) ||
-            (-1 !== listUpdateInfo.innerText.search("Plan to Watch"))) {
+            (-1 !== listUpdateInfo.innerText.search("Plan to"))) {
             continue;
         }
 
