@@ -14,8 +14,6 @@ const LIST_ENTRY_CLASS_NAME = "borderClass";
 
 function colorUserShows(userMatches, colorInfo)
 {
-    console.log(userMatches);
-
     for (let userMatch of userMatches) {
         /* Color the entire line in the table. (<a> --> <td> --> <tr>)*/
         let userMatchLine = userMatch.tableEntry.parentElement;
