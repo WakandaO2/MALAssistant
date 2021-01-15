@@ -34,6 +34,14 @@ function onMessageReception(message, sender, sendResponse)
         case MessageTypes.REQUEST_SHOWS:
             sendShows(resolve);
             break;
+        case MessageTypes.GESTURE_USER_MATCHES:
+            browser.browserAction.setBadgeText({
+                text: message.matchesCount.toString(),
+                tabId: sender.tab.id
+            });
+
+            resolve(true);
+            break;
         default:
             // Unknown message type. do nothing.
             resolve(true);

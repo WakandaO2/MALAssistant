@@ -2,7 +2,7 @@
     "manifest_version": 2,
     "name": "MALAssistant",
     "description": "Add useful information to MyAnimeList.",
-    "version": "2.0",
+    "version": "2.0.2",
     "author": "WakandaO2",
     "default_locale": "en",
 
@@ -27,7 +27,9 @@
             "js": [
                 "lib/browser-polyfill.js", 
                 "common/common.js", 
-                "content_scripts/people/colorUserShows.js"
+                "content_scripts/people/findUserShows.js",
+                "content_scripts/people/colorUserShows.js",
+                "content_scripts/people/peopleMain.js"
             ],
             "matches": [ "https://myanimelist.net/people/*" ]
         },
