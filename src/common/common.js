@@ -8,8 +8,9 @@ Date:           09/04/2020
 /*****  Constants  *****/
 
 var MessageTypes = {
-    INSERT_SHOWS  : 0,
-    REQUEST_SHOWS : 1
+    INSERT_SHOWS         : 0,
+    REQUEST_SHOWS        : 1,
+    GESTURE_USER_MATCHES : 2
 };
 
 var MalStatuses = {
