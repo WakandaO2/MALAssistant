@@ -25,7 +25,7 @@
     "content_scripts": [
         {
             "js": [
-                "lib/browser-polyfill.js", 
+                "lib/browser-polyfill.min.js", 
                 "common/common.js", 
                 "content_scripts/people/findUserShows.js",
                 "content_scripts/people/colorUserShows.js",
@@ -35,7 +35,7 @@
         },
         {
             "js": [
-                "lib/browser-polyfill.js", 
+                "lib/browser-polyfill.min.js", 
                 "common/common.js", 
                 "content_scripts/getUserShowsBeta.js"
             ],
@@ -43,7 +43,7 @@
         },
         {
             "js": [
-                "lib/browser-polyfill.js",
+                "lib/browser-polyfill.min.js",
                 "common/common.js",
                 "content_scripts/profile/showListProgress.js"
             ],
@@ -53,7 +53,7 @@
   
     "background": {
         "scripts": [
-            "lib/browser-polyfill.js", 
+            "lib/browser-polyfill.min.js", 
             "common/common.js",
             "background/background.js"
         ]
